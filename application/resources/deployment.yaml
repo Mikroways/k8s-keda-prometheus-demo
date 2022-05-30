@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webapp
+  name: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      initContainers:
+        - name: page-designer
+          image: busybox
+          command: ["sh", "-c"]
+          args:
+            - echo $(PODNAME)  > /webapp/index.html
+          env:
+            - name: PODNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+            - name: webapps
+              mountPath: /webapp
+      containers:
+        - image: nginx
+          name: nginx
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "150m"
+            limits:
+              memory: "96Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: webapps
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: webapps
+          emptyDir: {}

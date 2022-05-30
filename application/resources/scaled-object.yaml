@@ -1,0 +1,22 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: http-webapp
+spec:
+  scaleTargetRef:
+    name: webapp
+  maxReplicaCount: 5
+  minReplicaCount: 1
+  pollingInterval: 5
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 30
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: "http://kube-prometheus-stack-prometheus.kube-prometheus-stack:9090"
+        metricName: "http_requests_total"
+        threshold: "20"
+        query: 'sum(irate(nginx_ingress_controller_requests{ingress="webapp",status!~"[45].*"}[2m]))'

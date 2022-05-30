@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webapp
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: hpa.mikroways.demo
+      http:
+        paths:
+          - path: /webapp
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: webapp
+                port:
+                  number: 80

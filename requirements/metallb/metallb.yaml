@@ -1,0 +1,8 @@
+configInline:
+  address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+        # Get your ip docker ip address range using: docker network inspect -f
+        # '{{.IPAM.Config}}' kind
+        - 172.18.255.200-172.18.255.200
