@@ -2,6 +2,7 @@ prometheus:
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: false
 grafana:
+  adminPassword: mikroways
   grafana.ini:
     server:
       domain: hpa.mikroways.demo
