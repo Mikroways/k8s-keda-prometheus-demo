@@ -14,6 +14,7 @@ caracterśiticas:
 * helmfile
 * helm
 * kustomize
+* k6
 
 ## Pasos
 
