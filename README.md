@@ -16,7 +16,15 @@ caracterśiticas:
 * kustomize
 * k6
 
-## Pasos
+## Instalación en un comando
+
+Simplemente correr:
+
+```
+./install.sh
+```
+
+## Instalación detallada
 
 Primero creamos el cluster kind:
 
