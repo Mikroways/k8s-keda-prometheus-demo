@@ -5,5 +5,7 @@ releases:
 - name: kube-prometheus-stack
   namespace: kube-prometheus-stack
   chart: prometheus-community/kube-prometheus-stack
+  version: 45.27.*
+  wait: true
   values:
-    - prometheus-stack.yaml
+    - values/kube-prometheus-stack.yaml

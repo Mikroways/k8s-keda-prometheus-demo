@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: hpa.mikroways.demo
+    - host: hpa.mikroways.localhost
       http:
         paths:
           - path: /webapp

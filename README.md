@@ -16,54 +16,30 @@ caracterśiticas:
 * kustomize
 * k6
 
-## Instalación en un comando
+## Instalación:
 
-Simplemente correr:
-
-```
-./install.sh
-```
-
-## Instalación detallada
-
-Primero creamos el cluster kind:
+Correr en el siguiente orden:
 
 ```
 kind create cluster --config kind-config.yaml
-```
-
-Luego, configuramos los servicios necesarios:
-
-```
-./requirements/install.sh
-```
-> Es **importante** leer los values de `requirements/metallb/metallb.yaml`
-> porque en él se define la IP donde se exponen los servicios del cluster de
-> kubernetes.
-
-Antes de proceder agregar en el archivo `/etc/hosts` el siguiente contenido:
-
-```
-172.18.255.200 hpa.mikroways.demo
-```
-> La IP utilizada depende de la configuración de docker, por ello está
-> relacionado con el valor seteado en metallb.
-
-Ahora debemos proceder con la instalación de una aplicación web de prueba:
-
-```
+helmfile sync
 kubectl apply -k application/
 ```
+
+## Cómo probar
+
+> Se asume las pruebas se desarrollan en Linux, donde el DNS empleado es
+> hpa.mikroways.localhost. En Linux este dominio resolverá en 127.0.0.1
 
 Una vez con los requerimientos instalados, podremos acceder a los servicios
 instalados usando los siguientes enlaces:
 
-* **[Grafana](http://hpa.mikroways.demo/grafana):** usuario **admin** password
+* **[Grafana](http://hpa.mikroways.localhost/grafana):** usuario **admin** password
   **mikroways**. Es importante visualizar dos dashboards:
   * El del nginx ingress controller para el namespace webapp y con 5 segundos de
     refresh
   * El de pods por namespace para mostrar el escalamiento
-* **[Aplicación de prueba](http://hpa.mikroways.demo/webapp):** muestra el
+* **[Aplicación de prueba](http://hpa.mikroways.localhost/webapp):** muestra el
   hostname del pod donde corre la aplicación. Al escalar el nombre irá
   cambiando.
 
@@ -98,21 +74,14 @@ k6 run --vus 10 --duration 120s script.js
 Ahora con 50 requerimientos por segundo:
 
 ```
-k6 run --vus 50 --duration 120s script.js
+k6 run --vus 50 --duration 300s script.js
 ```
 
 > Observaremos que la cantidad de RPS nos lleva a escalar a 3 los pods
 
-Ahora con 50 requerimientos por segundo:
-
-```
-k6 run --vus 50 --duration 120s script.js
-```
-
-> Observaremos que la cantidad de RPS nos lleva a escalar a 3 los pods
 
 Podemos probar una vez más con 150 requerimientos por segundo:
 
 ```
-k6 run --vus 150 --duration 120s script.js
+k6 run --vus 150 --duration 300s script.js
 ```

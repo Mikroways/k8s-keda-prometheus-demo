@@ -5,7 +5,7 @@ grafana:
   adminPassword: mikroways
   grafana.ini:
     server:
-      domain: hpa.mikroways.demo
+      domain: hpa.mikroways.localhost
       root_url: "%(protocol)s://%(domain)s/grafana"
       serve_from_sub_path: true
   dashboards:
@@ -29,4 +29,4 @@ grafana:
     enabled: true
     path: /grafana
     hosts:
-      - hpa.mikroways.demo
+      - hpa.mikroways.localhost

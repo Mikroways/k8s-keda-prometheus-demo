@@ -1,11 +1,8 @@
 repositories:
-  - name: metallb
-    url: https://metallb.github.io/metallb
   - name: keda
     url: https://kedacore.github.io/charts
 releases:
 - name: keda
   namespace: keda
+  version: 2.10.*
   chart: keda/keda
-  values:
-    - keda.yaml
