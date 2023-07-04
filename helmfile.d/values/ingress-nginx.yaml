@@ -8,3 +8,6 @@ controller:
   nodeSelector:
     kubernetes.io/os: linux
     ingress-ready: "true"
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      effect: "NoSchedule"
